@@ -146,7 +146,9 @@ def create_user_account_with_blockchain(username, password, role):
     Creates a user account and potentially records the registration on the blockchain.
     """
     # First, register the user in the traditional database
+    db_session = next(get_session())
     success, message = register_user(username, password, role)
+    db_session.close()
 
     if success:
         print(f"User '{username}' registered in database.")
@@ -662,7 +664,7 @@ def show_admin_dashboard():
                 success, message = add_user_by_admin(db_session, new_username, new_password, new_role)
                 if success:
                     st.success(message)
-                    st.experimental_rerun() # Refresh to show updated list
+                    st.rerun() # Refresh to show updated list
                 else:
                     st.error(message)
             else:
@@ -700,7 +702,7 @@ def show_admin_dashboard():
                         success, message = edit_user_by_admin(db_session, selected_user_id, edit_username, password_to_pass, edit_role)
                         if success:
                             st.success(message)
-                            st.experimental_rerun() # Refresh to show updated list
+                            st.rerun() # Refresh to show updated list
                         else:
                             st.error(message)
 
@@ -713,7 +715,7 @@ def show_admin_dashboard():
                             success, message = delete_user_by_admin(db_session, selected_user_id)
                             if success:
                                 st.success(message)
-                                st.experimental_rerun() # Refresh to show updated list
+                                st.rerun() # Refresh to show updated list
                             else:
                                 st.error(message)
     else:
@@ -736,7 +738,7 @@ def show_admin_dashboard():
                 success, message = add_department_by_admin(db_session, new_dept_name)
                 if success:
                     st.success(message)
-                    st.experimental_rerun() # Refresh
+                    st.rerun() # Refresh
                 else:
                     st.error(message)
             else:
@@ -770,7 +772,7 @@ def show_admin_dashboard():
                             success, message = edit_department_by_admin(db_session, selected_dept_id, edit_dept_name)
                             if success:
                                 st.success(message)
-                                st.experimental_rerun() # Refresh
+                                st.rerun() # Refresh
                             else:
                                 st.error(message)
                         else:
@@ -786,7 +788,7 @@ def show_admin_dashboard():
                             success, message = delete_department_by_admin(db_session, selected_dept_id)
                             if success:
                                 st.success(message)
-                                st.experimental_rerun() # Refresh
+                                st.rerun() # Refresh
                             else:
                                 st.error(message)
 
@@ -829,7 +831,7 @@ with st.sidebar:
                     st.session_state['user_role'] = role
                     st.session_state['username'] = username
                     st.success(message)
-                    st.experimental_rerun() # Rerun to show appropriate interface
+                    st.rerun() # Rerun to show appropriate interface
                 else:
                     st.error(message)
 
@@ -844,7 +846,7 @@ with st.sidebar:
                     if success:
                         st.success(message)
                          # Clear form fields after successful registration (optional)
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.error(message)
                 else:
@@ -862,7 +864,7 @@ with st.sidebar:
                     st.session_state['user_role'] = "Staff/Technician" # Assign the technician role
                     st.session_state['username'] = technician_id # Store technician ID as username
                     st.success(message)
-                    st.experimental_rerun() # Rerun to show appropriate interface
+                    st.rerun() # Rerun to show appropriate interface
                 else:
                     st.error(message)
 
@@ -872,7 +874,7 @@ with st.sidebar:
             st.session_state['logged_in'] = False
             st.session_state['user_role'] = None
             st.session_state['username'] = None
-            st.experimental_rerun() # Rerun to show login interface
+            st.rerun() # Rerun to show login interface
 
 # --- Main Content Area ---
 if st.session_state['logged_in']:
