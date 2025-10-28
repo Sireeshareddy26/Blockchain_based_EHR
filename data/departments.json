@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "name": "General medicine",
+      "password_hash": ""
+    },
+    {
+      "name": "Pathology",
+      "password_hash": ""
+    }
+  ]
+}
